@@ -19,9 +19,9 @@ const ToDoList = () => {
       .then((response) => {
         const formattedTasks = response.data.map(task => ({
           id: task.id,
-          task: task.task || '', // Ensure task exists
-          date: task.date ? parseISO(task.date) : new Date(), // Parse ISO string to Date
-          completed: task.completed === "true" // Convert string to boolean
+          task: task.task || '', 
+          date: task.date ? parseISO(task.date) : new Date(), 
+          completed: task.completed === "true"
         }));
         setTaskList(formattedTasks);
         setIsLoading(false);
@@ -35,8 +35,9 @@ const ToDoList = () => {
 
   useEffect(() => {
     getTask();
+    const interval = setInterval(getTask, 3000);
+    return () => clearInterval(interval); 
   }, []);
-
   const formatDate = (date) => {
     try {
       return format(date, 'MM/dd/yyyy');
@@ -83,21 +84,15 @@ const ToDoList = () => {
         console.error('Error adding task:', error.response?.data || error.message);
       });
   };
-
+  
   const deleteTask = async (id) => {
     try{
       console.log('id:'+id);
-      const response = await Axios.delete(`http://localhost:3001/delete/${id}`,
-      {
-        headers: {
-            'Content-Type': 'application/json',
-       }
-      });
-     
+      const response = await Axios.delete(`http://localhost:3001/delete/${id}`);
         if (response.status === 200) {
-          setTaskList(prevTasks => prevTasks.filter(task => task.id !== id));
+          setTaskList(taskList.filter(task => task.id !== id));
         }else{
-          console.log('fail to delete task');
+          console.log('fail to delete task' + response.text());
         }
       }catch(error) {
         setError('delete data fail');
@@ -116,6 +111,8 @@ const ToDoList = () => {
     });
   };
 
+
+  
   return (
     <>
       <h1 className="title">Todolist</h1>
