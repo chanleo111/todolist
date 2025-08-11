@@ -117,9 +117,6 @@ const ToDoList = () => {
     <>
       <h1 className="title">Todolist</h1>
       <div className="todolist">
-        <div className="date">
-          <h1>{formatDate(selectedDate)}</h1>
-        </div>
         {error && (
           <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md">
             {error}
