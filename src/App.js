@@ -1,5 +1,5 @@
 import './App.css';
-import ToDoList from './components/todolist.js';
+import ToDoList from './components/Todolist';
 
 function App() {
   return (
@@ -12,4 +12,4 @@ function App() {
     </>
   );
 }
-export default App;
+export default App; 
